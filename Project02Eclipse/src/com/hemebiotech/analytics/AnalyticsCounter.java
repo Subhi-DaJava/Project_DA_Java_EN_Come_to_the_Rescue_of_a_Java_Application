@@ -19,29 +19,29 @@ public class AnalyticsCounter {
 	public static void main(String args[]) throws IOException {
 		
 		//1.Créer une nouvelle liste qui reçoit tous les sysmptôms
-				List<String> arr1 = new ArrayList<>();
+				List<String> arr = new ArrayList<>();
 		
 		String fileInputPath = "Project02Eclipse/symptoms.txt";
 		ReadSymptomDataFromFile fileToArray = new ReadSymptomDataFromFile(fileInputPath);
 
-		//2.Utiliser la méthode " GetSymptoms" de la Class ReadSymptomDataFile qui affecte la Liste "arr1";		
-		arr1=fileToArray.GetSymptoms();
+		//2.Utiliser la méthode " GetSymptoms" de la Class ReadSymptomDataFile qui affecte la Liste "arr";		
+		arr=fileToArray.GetSymptoms();
 		
-		//3.Créer un instance de la classe ArrayToLinkedHashSet, anonyme;
-		new ArrayToLinkedHashSet().listToSet(arr1);
+		//3.Créer une instance de la classe ArrayToLinkedHashSet, anonyme;
+		new ArrayToLinkedHashSet().listToSet(arr);
 		
 		//3.générer un fichier de sortie 
 		String fileOutPath="c:/users/zulfy/git/Project_DA_Java_EN_Come_to_the_Rescue_of_a_Java_Application/result.out";
 		FileWriter writer = new FileWriter(fileOutPath);
 	
-		//4.Donner les élément de "arr1" dans une LinkedHashList(une liste ordonnée) pour éliminer les doublons 
+		//4.Donner les élément de "arr" dans une LinkedHashList(une liste ordonnée) pour éliminer les doublons 
 		//et garder également l'ordre alphabétique de cette ArrayList;
 		Set<String> set = new LinkedHashSet<>();
-		set.addAll(arr1);
+		set.addAll(arr);
 	
-		//5.Writing every line with the occurrence of the élément of the ArrayList of arr1;
+		//5.Writing every line with the occurrence of the élément of the ArrayList of arr;
 		for(String strLine : set) {
-			writer.write(strLine+"="+Collections.frequency(arr1,strLine)+"\n");
+			writer.write(strLine+"="+Collections.frequency(arr,strLine)+"\n");
 		}
 		writer.close();
 		
