@@ -1,5 +1,6 @@
 package com.hemebiotech.analytics;
 
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +16,7 @@ import java.util.Set;
 
 public class AnalyticsCounter {
 
-	public static void main(String args[]) throws Exception {
+	public static void main(String args[]) throws FileNotFoundException {
 		
 		//1.Créer une nouvelle liste qui reçoit tous les sysmptôms
 				List<String> arr1 = new ArrayList<>();
