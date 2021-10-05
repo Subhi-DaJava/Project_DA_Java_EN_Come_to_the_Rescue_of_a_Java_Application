@@ -29,7 +29,7 @@ public class ArrayToLinkedHashSet {
 		Set<String> set = new LinkedHashSet<>();
 		set.addAll(arr);
 		for(String resultat : set) {
-			str=resultat+"="+Collections.frequency(arr, resultat);
+			str=resultat+" = "+Collections.frequency(arr, resultat);
 			System.out.println(str);
 		}
 		
