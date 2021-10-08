@@ -1,42 +1,48 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+/**
+ * Lire un fichier dans un dossier, puis transmet une ArrayList, enlever les doublons, ranger les éléments 
+ * de la liste par alphabétique en décomptant les nombres de chaque symptôme, écrit dans un nouveau fichier;
+ * @author SUBI
+ *
+ */
+public class AnalyticsCounter {	
+	public static void main(String args[]) throws IOException {
+		//1.Créer une nouvelle liste qui reçoit tous les sysmptôms
+				List<String> arr = new ArrayList<>();
+		
+		String fileInputPath = "Project02Eclipse/symptoms.txt";
+		ReadSymptomDataFromFile fileToArray = new ReadSymptomDataFromFile(fileInputPath);
 
-public class AnalyticsCounter {
-	private static int headCount = 0;	// initialize to 0
-	private static int rashCount = 0;		// initialize to 0
-	private static int pupilCount = 0;		// initialize to 0
+		//2.Utiliser la méthode " GetSymptoms" de la Class ReadSymptomDataFile qui affecte la Liste "arr";		
+		arr=fileToArray.GetSymptoms();
+		
+		//3.Créer une instance de la classe ArrayToLinkedHashSet, anonyme;
+		new ArrayToLinkedHashSet().listToSet(arr);
+		
+		//3.générer un fichier de sortie 
+		String fileOutPath="result.out";
+		FileWriter writer = new FileWriter(fileOutPath);
 	
-	public static void main(String args[]) throws Exception {
-		// first get input
-		BufferedReader reader = new BufferedReader (new FileReader("Project02Eclipse/symptoms.txt"));
-		String line = reader.readLine();
-
-		
-		while (line != null) {
-		
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headCount++;
-				System.out.println("number of headaches: " + headCount);
-			}
-			else if (line.equals("rash")) {
-				rashCount++;
-			}
-			else if (line.contains("pupils")) {
-				pupilCount++;
-			}
-
-			line = reader.readLine();	// get another symptom
+		//4.Donner les élément de "arr" dans une LinkedHashList(une liste ordonnée) pour éliminer les doublons 
+		//et garder également l'ordre alphabétique de cette ArrayList;
+		Set<String> set = new LinkedHashSet<>();
+		set.addAll(arr);
+	
+		//5.Writing every line with the occurrence of the élément of the ArrayList of arr;
+		for(String strLine : set) {
+			writer.write(strLine+" = "+Collections.frequency(arr,strLine)+"\n");
 		}
-		
-		// next generate output
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
+
 		writer.close();
+		
+		
 	}
 }
