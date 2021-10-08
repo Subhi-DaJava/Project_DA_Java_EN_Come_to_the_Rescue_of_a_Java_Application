@@ -25,7 +25,7 @@ public class AnalyticsCounter {
 		arr=fileToArray.GetSymptoms();
 		
 		//3.Créer une instance de la classe ArrayToLinkedHashSet, anonyme;
-		new ArrayToLinkedHashSet().listToSet(arr);
+//		new ArrayToLinkedHashSet().listToSet(arr);
 		
 		//3.générer un fichier de sortie 
 		String fileOutPath="result.out";
@@ -34,13 +34,14 @@ public class AnalyticsCounter {
 		//4.Donner les élément de "arr" dans une LinkedHashList(une liste ordonnée) pour éliminer les doublons 
 		//et garder également l'ordre alphabétique de cette ArrayList;
 		Set<String> set = new LinkedHashSet<>();
+		Collections.sort(arr);
 		set.addAll(arr);
-	
 		//5.Writing every line with the occurrence of the élément of the ArrayList of arr;
 		for(String strLine : set) {
-			writer.write(strLine+" = "+Collections.frequency(arr,strLine)+"\n");
+			writer.write(strLine+"="+Collections.frequency(arr,strLine)+";\n");
+			System.out.println(strLine+"="+Collections.frequency(arr,strLine)+";");
 		}
-
+		
 		writer.close();
 		
 		
