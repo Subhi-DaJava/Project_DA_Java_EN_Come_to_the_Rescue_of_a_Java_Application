@@ -8,42 +8,40 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 /**
- * Lire un fichier dans un dossier, puis transmet une ArrayList, enlever les doublons, ranger les éléments 
- * de la liste par alphabétique en décomptant les nombres de chaque symptôme, écrit dans un nouveau fichier;
+ * Lire un fichier dans un dossier, puis le transmet comme une List, enlever les doublons, ranger les éléments 
+ * de la liste par l'ordre alphabétique en décomptant les nombres de chaque symptôme et les écrire dans un nouveau fichier de sortie;
  * @author SUBI
  *
  */
 public class AnalyticsCounter {	
 	public static void main(String args[]) throws IOException {
-		//1.Créer une nouvelle liste qui reçoit tous les sysmptôms
-				List<String> arr = new ArrayList<>();
+		
+		//Créer une nouvelle liste qui reçoit tous les sysmptôms
+		List<String> list = new ArrayList<>();
 		
 		String fileInputPath = "Project02Eclipse/symptoms.txt";
 		ReadSymptomDataFromFile fileToArray = new ReadSymptomDataFromFile(fileInputPath);
 
-		//2.Utiliser la méthode " GetSymptoms" de la Class ReadSymptomDataFile qui affecte la Liste "arr";		
-		arr=fileToArray.GetSymptoms();
+		//Utiliser la méthode getSymptoms() de la classe ReadSymptomDataFile qui affecte la list;		
+		list=fileToArray.getSymptoms();
 		
-		//3.Créer une instance de la classe ArrayToLinkedHashSet, anonyme;
-//		new ArrayToLinkedHashSet().listToSet(arr);
-		
-		//3.générer un fichier de sortie 
+		//Générer un fichier de sortie 
 		String fileOutPath="result.out";
 		FileWriter writer = new FileWriter(fileOutPath);
 	
-		//4.Donner les élément de "arr" dans une LinkedHashList(une liste ordonnée) pour éliminer les doublons 
-		//et garder également l'ordre alphabétique de cette ArrayList;
+		//Donner les élément de list dans une LinkedHashList(une liste ordonnée) pour éliminer les doublons 
+		//et garder également l'ordre alphabétique de cette list;
 		Set<String> set = new LinkedHashSet<>();
-		Collections.sort(arr);
-		set.addAll(arr);
-		//5.Writing every line with the occurrence of the élément of the ArrayList of arr;
+		Collections.sort(list);
+		set.addAll(list);
+		
+		//Faire écrire chaque élément de set par linge avec son occurrence dan le fichier de sortie et afficher le même résultat dans la console
 		for(String strLine : set) {
-			writer.write(strLine+"="+Collections.frequency(arr,strLine)+";\n");
-			System.out.println(strLine+"="+Collections.frequency(arr,strLine)+";");
+			writer.write(strLine+"="+Collections.frequency(list,strLine)+";\n");
+			System.out.println(strLine+"="+Collections.frequency(list,strLine)+";");
 		}
 		
 		writer.close();
-		
-		
+			
 	}
 }
