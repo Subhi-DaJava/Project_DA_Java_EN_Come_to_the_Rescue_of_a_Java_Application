@@ -15,7 +15,7 @@ import java.util.TreeMap;
  * @author zulfy
  *
  */
-public class Application {
+public class SymptomsCounter {
 
 	public static void main(String[] args) throws IOException {
 
@@ -23,18 +23,16 @@ public class Application {
 			String inputFileName = "Project02Eclipse/symptoms.txt";
 			String outputFileName = "result.out";
 			
-			List<String> list = new ArrayList<>();
-			Map<String, Integer> map = new HashMap<String, Integer>();
+			List<String> symptomsList = new ArrayList<>();
+			Map<String, Integer> symptoms = new TreeMap<String, Integer>();
 			
-			TreeMap<String, Integer> sortedMap = new TreeMap<>();
 
 			AnalyticsCounter analyticsCounter = new AnalyticsCounter(inputFileName, outputFileName);
-			list = analyticsCounter.inputFile(inputFileName);
+			symptomsList = analyticsCounter.inputFile(inputFileName);
 
-			map = analyticsCounter.listToMap(list);
-			sortedMap = analyticsCounter.sortSymptoms(map);
-
-			analyticsCounter.writeSymptoms(outputFileName, sortedMap);
+			symptoms = analyticsCounter.getSymptoms(symptomsList);
+		
+			analyticsCounter.writeResult(outputFileName, symptoms);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -3,7 +3,6 @@ package com.hemebiotech.analytics;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,7 +11,8 @@ public class AnalyticsCounter {
 
 	private String inputFileName;
 	private String outputFileName;
-public AnalyticsCounter(String inputFileName, String outputFileName) {
+
+	public AnalyticsCounter(String inputFileName, String outputFileName) {
 		this.inputFileName = inputFileName;
 		this.outputFileName = outputFileName;
 	}
@@ -22,42 +22,30 @@ public AnalyticsCounter(String inputFileName, String outputFileName) {
 	 * @param inputFileName
 	 */
 	public List<String> inputFile(String inputFileName) {
-		List<String> list = new ArrayList<>();
+		List<String> symptomsList = new ArrayList<>();
 		this.inputFileName = inputFileName;
 		ISymptomReader iSymptomReader = new ReadSymptomDataFromFile(inputFileName);
-		list = iSymptomReader.getSymptoms();
-		return list;
+		symptomsList = iSymptomReader.getSymptoms();
+		return symptomsList;
 	}
 
-	public Map<String, Integer> listToMap(List<String> list) {
-
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		for (String symptom : list) {
-
-			if (!map.containsKey(symptom)) {
-				map.put(symptom, 1);
+	public TreeMap<String, Integer> getSymptoms(List<String> symptomsList) {
+		Map<String, Integer> symptoms = new TreeMap<String, Integer>();
+		for (String line : symptomsList) {
+			if (!symptoms.containsKey(line)) {
+				symptoms.put(line, 1);
 			} else {
-				map.put(symptom, map.get(symptom) + 1);
+				symptoms.put(line, symptoms.get(line) + 1);
 			}
 		}
 
-		return map;
-
+		return (TreeMap<String, Integer>) symptoms;
 	}
 
-	public TreeMap<String, Integer> sortSymptoms(Map<String, Integer> map) {
-		TreeMap<String, Integer> sortedMap = new TreeMap<>();
-		sortedMap.putAll(map);
-		return sortedMap;
-	}
-
-	public void writeSymptoms(String outputFileName, TreeMap<String, Integer> sortedMap) throws IOException {
-
+	public void writeResult(String outputFileName, Map<String, Integer> symptoms) throws IOException {
 		this.outputFileName = outputFileName;
 		FileWriter writer = new FileWriter(outputFileName);
-
-		for (Map.Entry<String, Integer> m : sortedMap.entrySet()) {
-
+		for (Map.Entry<String, Integer> m : symptoms.entrySet()) {
 			System.out.println(m.getKey() + "=" + m.getValue() + ";");
 			writer.write(m.getKey() + "=" + m.getValue() + ";" + "\n");
 		}
