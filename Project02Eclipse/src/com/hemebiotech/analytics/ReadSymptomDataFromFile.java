@@ -33,16 +33,21 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 	@Override
 	public List<String> getSymptoms() {
 		ArrayList<String> result = new ArrayList<String>();
-		
+		//Si le fichier n'est pas vide
 		if (filepath != null) {
+			//Gestion d'exception
 			try {
+				//Recçoit le fichier  
 				BufferedReader reader = new BufferedReader (new FileReader(filepath));
+				//Lire chaque linge, crée une chaîne de caractères
 				String line = reader.readLine();
 				
+				//Transmet la ligne(la chaîne de caractères) à un élément d'une liste avec la boucle
 				while (line != null) {
 					result.add(line);
 					line = reader.readLine();
 				}
+				//Arrêt de lire
 				reader.close();
 				
 			} catch (IOException e) {
