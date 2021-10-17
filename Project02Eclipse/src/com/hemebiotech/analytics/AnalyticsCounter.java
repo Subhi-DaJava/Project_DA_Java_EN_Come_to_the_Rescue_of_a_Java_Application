@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class AnalyticsCounter {
 
-	private String inputFileName, outputFileName;
-
-	public AnalyticsCounter(String inputFileName, String outputFileName) {
+	private String inputFileName;
+	private String outputFileName;
+public AnalyticsCounter(String inputFileName, String outputFileName) {
 		this.inputFileName = inputFileName;
 		this.outputFileName = outputFileName;
 	}
@@ -44,16 +45,21 @@ public class AnalyticsCounter {
 
 	}
 
-	public void writeSymptoms(String outputFileName, Map<String, Integer> map) throws IOException {
+	public TreeMap<String, Integer> sortSymptoms(Map<String, Integer> map) {
+		TreeMap<String, Integer> sortedMap = new TreeMap<>();
+		sortedMap.putAll(map);
+		return sortedMap;
+	}
+
+	public void writeSymptoms(String outputFileName, TreeMap<String, Integer> sortedMap) throws IOException {
 
 		this.outputFileName = outputFileName;
 		FileWriter writer = new FileWriter(outputFileName);
 
-		for (Map.Entry<String, Integer> m : map.entrySet()) {
+		for (Map.Entry<String, Integer> m : sortedMap.entrySet()) {
 
 			System.out.println(m.getKey() + "=" + m.getValue() + ";");
 			writer.write(m.getKey() + "=" + m.getValue() + ";" + "\n");
-			;
 		}
 		writer.close();
 	}
