@@ -14,6 +14,14 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 
 	private String filepath;
 	
+	public String getFilepath() {
+		return filepath;
+	}
+
+	public void setFilepath(String filepath) {
+		this.filepath = filepath;
+	}
+
 	/**
 	 * 
 	 * @param filepath a full or partial path to file with symptom strings in it, one per line
@@ -36,6 +44,7 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 					line = reader.readLine();
 				}
 				reader.close();
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
