@@ -15,7 +15,7 @@ public class SymptomsCounter {
 
 	public static void main(String[] args) throws IOException {
 
-		try {
+		
 			//Emplacement du fichier de sysmptômes
 			String inputFileName = "Project02Eclipse/symptoms.txt";
 			//Destination du fichier de sortie
@@ -33,9 +33,6 @@ public class SymptomsCounter {
 		
 			analyticsCounter.writeResult(outputFileName, symptoms);
 			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }
