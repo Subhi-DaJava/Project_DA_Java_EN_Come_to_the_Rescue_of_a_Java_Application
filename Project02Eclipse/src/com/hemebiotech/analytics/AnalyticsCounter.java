@@ -66,10 +66,15 @@ public class AnalyticsCounter {
 		//Créer un fichier de sortie et son emplacement;
 		FileWriter writer = new FileWriter(outputFileName);
 		//Itérer chaque pair d'éléments d'un Map, écrire dans un fichier de sortie et affiche dans la console; 
-		for (Map.Entry<String, Integer> m : symptoms.entrySet()) {
+		try{
+			for (Map.Entry<String, Integer> m : symptoms.entrySet()) {
 			System.out.println(m.getKey() + "=" + m.getValue() + ";");
 			writer.write(m.getKey() + "=" + m.getValue() + ";" + "\n");
 		}
 		writer.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 }
