@@ -1,4 +1,9 @@
 /bin/
 result.out
+<<<<<<< HEAD
 javadoc.xml
 doc/
+=======
+doc/
+javadoc.xml
+>>>>>>> develop

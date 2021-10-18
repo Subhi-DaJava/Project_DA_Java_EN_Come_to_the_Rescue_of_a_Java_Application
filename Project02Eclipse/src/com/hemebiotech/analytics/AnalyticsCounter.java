@@ -3,58 +3,104 @@ package com.hemebiotech.analytics;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
+/**
+ * La classe gère pour lire le fichier, symptôme transformé élément d'une liste
+ * puis la clé(symptôme) et valeur(nombre d'occurrence) d'un Map, en fin sortir
+ * les symptômes dans un fichier de sortie avec leur nombre d'occurrences;
+ * 
+ * @author Subi
+ *
+ */
 public class AnalyticsCounter {
+	// variables de la classe
+	private String inputFileName;
+	private String outputFileName;
 
-	private String inputFileName, outputFileName;
+	public String getInputFileName() {
+		return inputFileName;
+	}
 
+	public String getOutputFileName() {
+		return outputFileName;
+	}
+
+	// Constructeur
 	public AnalyticsCounter(String inputFileName, String outputFileName) {
 		this.inputFileName = inputFileName;
 		this.outputFileName = outputFileName;
 	}
 
 	/**
+	 * Importe un fichier, le lit et puis transformer les symptômes comme les
+	 * éléments d'une liste;
 	 * 
 	 * @param inputFileName
 	 */
 	public List<String> inputFile(String inputFileName) {
-		List<String> list = new ArrayList<>();
+		List<String> symptomsList = new ArrayList<>();
+		// Chemin d'un fichier à importer et à lire;
 		this.inputFileName = inputFileName;
+		// Créer un objet d'une classe qui implémente une interface
 		ISymptomReader iSymptomReader = new ReadSymptomDataFromFile(inputFileName);
-		list = iSymptomReader.getSymptoms();
-		return list;
+		// la méthode redéfinée transforme le message d'une ligne d'un fichier vers une
+		// liste;
+		symptomsList = iSymptomReader.getSymptoms();
+		return symptomsList;
 	}
 
-	public Map<String, Integer> listToMap(List<String> list) {
-
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		for (String symptom : list) {
-
-			if (!map.containsKey(symptom)) {
-				map.put(symptom, 1);
+	/**
+	 * Fournit les éléments d'une liste à un Map, dont la clé reçoie l'élément de
+	 * liste et la valeur récupère son nombre d'occurrence, le map tri par l'ordre
+	 * alphabétique automatiqument par rapport à la clé et puis renvoie un TreeMap
+	 * comme un résultat;
+	 * 
+	 * @param symptomsList
+	 * @return
+	 */
+	public TreeMap<String, Integer> getSymptoms(List<String> symptomsList) {
+		Map<String, Integer> symptoms = new TreeMap<String, Integer>();
+		for (String line : symptomsList) {
+			// Si le Map ne contien pas un message d'une ligne qui le rajoute comme une clé
+			// et son associé(sa valeur) 1;
+			if (!symptoms.containsKey(line)) {
+				symptoms.put(line, 1);
 			} else {
-				map.put(symptom, map.get(symptom) + 1);
+				// Sinon, on incrémente la valeur à 1;
+				symptoms.put(line, symptoms.get(line) + 1);
 			}
 		}
 
-		return map;
-
+		return (TreeMap<String, Integer>) symptoms;
 	}
 
-	public void writeSymptoms(String outputFileName, Map<String, Integer> map) throws IOException {
-
+	/**
+	 * Génerer un fichier de sortie, écrire les symptômes dans ce fichier et même
+	 * dans la console;
+	 * 
+	 * @param outputFileName
+	 * @param symptoms
+	 * @throws IOException
+	 */
+	public void writeResult(String outputFileName, Map<String, Integer> symptoms) throws IOException {
 		this.outputFileName = outputFileName;
-		FileWriter writer = new FileWriter(outputFileName);
+		// Créer un fichier de sortie et son emplacement;
+		try {
+			FileWriter writer = new FileWriter(outputFileName);
+			// Itérer chaque pair d'éléments d'un Map, écrire dans un fichier de sortie et
+			// affiche dans la console;
 
-		for (Map.Entry<String, Integer> m : map.entrySet()) {
-
-			System.out.println(m.getKey() + "=" + m.getValue() + ";");
-			writer.write(m.getKey() + "=" + m.getValue() + ";" + "\n");
-			;
+			for (Map.Entry<String, Integer> m : symptoms.entrySet()) {
+				System.out.println(m.getKey() + "=" + m.getValue() + ";");
+				writer.write(m.getKey() + "=" + m.getValue() + ";" + "\n");
+			}
+			writer.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		writer.close();
+
 	}
 }
