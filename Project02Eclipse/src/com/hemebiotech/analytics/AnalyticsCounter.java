@@ -35,12 +35,12 @@ public class AnalyticsCounter {
 	}
 
 	/**
-	 * Importe un fichier, le lit et puis transformer les symptômes comme les
+	 * Importer un fichier, le lire et puis transformer les symptômes comme les
 	 * éléments d'une liste;
 	 * 
 	 * @param inputFileName
 	 */
-	public List<String> inputFile(String inputFileName) {
+	public List<String> importInputFile(String inputFileName) {
 		List<String> symptomsList = new ArrayList<>();
 		// Chemin d'un fichier à importer et à lire;
 		this.inputFileName = inputFileName;
@@ -53,7 +53,7 @@ public class AnalyticsCounter {
 	}
 
 	/**
-	 * Fournit les éléments d'une liste à un Map, dont la clé reçoie l'élément de
+	 * Fournir les éléments d'une liste à un Map, dont la clé reçoie l'élément de
 	 * liste et la valeur récupère son nombre d'occurrence, le map tri par l'ordre
 	 * alphabétique automatiqument par rapport à la clé et puis renvoie un TreeMap
 	 * comme un résultat;
@@ -83,13 +83,14 @@ public class AnalyticsCounter {
 	 * 
 	 * @param outputFileName
 	 * @param symptoms
-	 * @throws IOException
+	 *
 	 */
-	public void writeResult(String outputFileName, Map<String, Integer> symptoms) throws IOException {
-		this.outputFileName = outputFileName;
+	public void writeResult(String outputFileName, Map<String, Integer> symptoms) {
+		FileWriter writer = null;
 		// Créer un fichier de sortie et son emplacement;
 		try {
-			FileWriter writer = new FileWriter(outputFileName);
+			this.outputFileName = outputFileName;
+			writer = new FileWriter(outputFileName);
 			// Itérer chaque pair d'éléments d'un Map, écrire dans un fichier de sortie et
 			// affiche dans la console;
 
@@ -97,9 +98,18 @@ public class AnalyticsCounter {
 				System.out.println(m.getKey() + "=" + m.getValue() + ";");
 				writer.write(m.getKey() + "=" + m.getValue() + ";" + "\n");
 			}
-			writer.close();
+
 		} catch (Exception e) {
+			System.out.println("Impossible d'écrire les symptoms, vérifiez le fichier de sortie.");
 			e.printStackTrace();
+		} finally {
+			if (writer != null)
+				try {
+					writer.close();
+				} catch (IOException e) {
+					System.out.println("Impossible de fermer d'écriture !");
+					e.printStackTrace();
+				}
 		}
 
 	}

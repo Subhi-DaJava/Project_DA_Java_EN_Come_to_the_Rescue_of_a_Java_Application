@@ -1,6 +1,5 @@
 package com.hemebiotech.analytics;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,12 +9,12 @@ import java.util.TreeMap;
  * Application lit les symptômes d'un fichier, les compte(le nombre
  * d'occurrences) puis les affiche par ligne dasn un nouveau fichier de sortie ;
  * 
- * @author Subi
+ * @author SUBI
  *
  */
 public class SymptomsCounter {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 
 		// Emplacement du fichier de sysmptômes
 		String inputFileName = "Project02Eclipse/symptoms.txt";
@@ -28,7 +27,7 @@ public class SymptomsCounter {
 		// Une instance de la classe AnalyticsCounter
 		AnalyticsCounter analyticsCounter = new AnalyticsCounter(inputFileName, outputFileName);
 		// Liste reçoie les sysmptômes
-		symptomsList = analyticsCounter.inputFile(inputFileName);
+		symptomsList = analyticsCounter.importInputFile(inputFileName);
 		// Map(TreeMap) reçoie
 		symptoms = analyticsCounter.getSymptoms(symptomsList);
 

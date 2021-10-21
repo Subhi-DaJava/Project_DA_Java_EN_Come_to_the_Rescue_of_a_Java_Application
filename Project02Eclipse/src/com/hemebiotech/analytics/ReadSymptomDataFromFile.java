@@ -35,12 +35,13 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 	@Override
 	public List<String> getSymptoms() {
 		ArrayList<String> result = new ArrayList<String>();
+		BufferedReader reader = null;
 		// Si le fichier n'est pas vide
 		if (filepath != null) {
 			// Gestion d'exception
 			try {
 				// Recçoit le fichier
-				BufferedReader reader = new BufferedReader(new FileReader(filepath));
+				 reader = new BufferedReader(new FileReader(filepath));
 				// Lire chaque linge, crée une chaîne de caractères
 				String line = reader.readLine();
 
@@ -50,11 +51,21 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 					result.add(line);
 					line = reader.readLine();
 				}
-				// Arrêt de lire
-				reader.close();
-
-			} catch (IOException e) {
+				
+				
+			} catch (Exception e) {
 				e.printStackTrace();
+				System.out.println("Impossible de lire les symptoms, vérifiez le fichier d'entrée !");
+			}
+			// Arrêt de lecture
+			finally {
+				if(reader!=null)
+					try {
+						reader.close();
+					} catch (IOException e) {
+						System.out.println("Impossible de fermer de lecture !");
+						e.printStackTrace();
+					}
 			}
 		}
 
